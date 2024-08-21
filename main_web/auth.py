@@ -166,7 +166,7 @@ def login_required(view):
 def send_welcome_email(to, username):
     with current_app.app_context():
         msg = Message("Welcome to Our Service", recipients=[to])
-        msg.body = f"Hi {username},\n\nWelcome to chic! We're glad to have you with us.\n\nBest Regards,\nDev Team"
+        msg.body = f"Hi {username},\n\nWelcome to Needle Haven We're glad to have you with us.\n\nBest Regards,\nDev Team"
         mail = Mail(current_app)  # Ensure mail is configured properly in your app
         mail.send(msg)
 
