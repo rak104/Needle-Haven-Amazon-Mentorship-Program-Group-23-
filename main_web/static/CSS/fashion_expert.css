@@ -1,0 +1,290 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+
+/*-----------------------------header--------------------*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 20px;
+    position: fixed; /* Make header fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 10; /* Ensure header is above other elements */
+}
+
+
+.logo {
+    top: -10px;
+    position: relative;
+    z-index: 15; /* Ensure the logo is above header-right */
+}
+
+.logo img {
+    position: absolute;
+    top: -10px; /* Adjust this value to move the logo higher */
+    left: 0;
+    height: 60px;
+    width: 120px;
+    transition: opacity 0.3s ease; /* Smooth transition for filter change */
+}
+
+.alternate {
+    opacity: 0; /* Start with the alternate logo hidden */
+}
+
+.header-right {
+    position: absolute;
+    background-color: black;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 250px; /* Initial width */
+    transition: width 0.5s ease; /* Smooth transition for width change */
+    z-index: 9; /* Ensure header-right is below the icons and logo */
+}
+
+.icon-container {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 25px;
+    z-index: 20; /* Ensure icon-container is above header-right */
+}
+
+.gpt-icon-img {
+    width: 45px;  /* Adjust the width as needed */
+    height: 24px;  /* Adjust the height as needed */
+}
+
+.icon-container i{
+    font-size: 20px;
+    cursor: pointer;
+    fill: white; /* Ensure the SVG icon is white */
+}
+
+.icon-container i:hover,
+.icon-container img:hover{
+    transform: scale(1.2); /* Scale the icon to 120% of its original size */
+    transition: transform 0.2s ease-in-out; /* Smooth transition effect */
+}
+
+.cart-button i {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.gpt-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.gpt-button img {
+    width: 52px; /* Adjust as needed */
+    height: 32px; /* Adjust as needed */
+    display: block;
+}
+
+
+
+.gpt-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.gpt-options {
+    display: none; /* Initially hidden */
+    position: absolute;
+    background-color: white; /* Dropdown background */
+    color: black; /* Dropdown text color */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1; /* Ensure the dropdown is above other content */
+}
+
+.gpt-options a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.gpt-options a:hover {
+    background-color: #ddd; /* Highlight option on hover */
+}
+
+.gpt-dropdown:hover .gpt-options {
+    display: block; /* Show dropdown on hover */
+}
+
+/* Chatbot Container */
+.chatbot-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 86%;
+    margin-top: 80px;
+    background-color: #ffffff;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Chat Header */
+.chat-header {
+    width : 260px;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 15px;
+    text-align: left;
+    margin-left: 20px;
+    border-bottom: 0.8px solid black;
+    font-size: 16px;
+    font-weight:200;
+}
+
+/* Chat Content */
+.chat-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #ffffff;
+}
+
+
+.message {
+    max-width: 75%;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.bot-message {
+    background-color: #e6e6e6;
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 0;
+}
+
+.user-message {
+    background-color: #007BFF;
+    color: white;
+    align-self: flex-end;
+    text-align: right;
+    border-bottom-right-radius: 0;
+}
+
+/* Chat Input Area */
+.chat-input-area {
+    margin-top: 10px;
+    display: flex;
+    padding: 15px;
+    background-color: none;
+}
+
+.upload-label {
+    margin-top: 10px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 20px;
+    color: #000000;
+}
+#userInput {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-bottom: 0.8px solid #7d7d7d;
+    font-size: 16px;
+    outline: none;
+    
+}
+
+#userInput::placeholder {
+    color: #7f7f7fbd; /* Change this to the desired color */
+    opacity: 1; /* Ensure the color is fully opaque */
+    
+    
+}
+
+
+#sendButton {
+    
+    color: #000000;
+    border: none;
+    padding: 10px 15px;
+    margin-left: 10px;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+#sendButton i {
+    font-size: 16px;
+}
+
+
+
+/* Example Questions Section */
+.example-questions {
+    background-color: #ffffff;
+    margin-left: 10px;
+    margin-right: 40px;
+    padding: 30px;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    justify-content: center; /* Center the container */
+    align-items: center; /* Center vertically (optional) */
+    flex-wrap: wrap; /* Wrap the content if it exceeds the width */
+}
+
+.example-questions p {
+    margin: 0 10px 0 0;
+    font-weight: bold;
+    display: inline; /* Keep label inline */
+}
+
+.examples-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the example questions */
+}
+
+.example {
+
+    border: 0.9px solid black;
+    background-color: none;
+    color: #000000;
+    padding: 10px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.example:hover {
+    background-color: #b5b5b5;
+    color: #595858;
+    border: none;
+}

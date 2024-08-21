@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link rel="stylesheet" href="../static/CSS/shop.css"> <!-- Link to your shop.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <nav class="nav-bar">
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('blog.category', category_name='Womenswear') }}" id="women">Womenswear</a></li>
+                    <li><a href="{{ url_for('blog.category', category_name='Menswear') }}" id="men">Menswear</a></li>
+                    <li><a href="{{ url_for('blog.category', category_name='Kidswear') }}"id="kids">Kidswear</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="logo">
+            <a href="{{ url_for('blog.index') }}">
+                <img src="../static/images/logo.png" alt="Logo" class="logo-img original">
+                <img src="../static/images/logo-inverse.png" alt="Alternate Logo" class="logo-img alternate">
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="icon-container">
+                <div class="gpt-dropdown">
+                    <button class="gpt-button">
+                        <img src="../static/images/gpt-icon.svg" alt="GPT Icon" class="gpt-icon-img">
+                    </button>
+                    <div class="gpt-options">
+                        <a href="{{ url_for('blog.product_finder') }}" class="gpt-option">Product Finder</a>
+                        <a href="{{ url_for('blog.fashion_expert') }}" class="gpt-option">Fashion Expert</a>
+                        <a href="{{ url_for('blog.personalized_stylist') }}" class="gpt-option">Personalized Stylist</a>
+                        <a href="{{ url_for('blog.virtual_model') }}"class="gpt-option">Virtual Model</a>
+                    </div>
+                </div>
+                <div class="profile-button">
+                    <a href="{{ url_for('blog.profile') }}">
+                        <i class="fas fa-user" style="color: white;"></i>
+                    </a>
+                </div>
+                <div class="cart-button">
+                    <a href="{{ url_for('blog.view_cart') }}">
+                        <i class="fas fa-shopping-cart" style="color: white;" ></i>
+                    </a>
+                </div>
+                <div class="navbar-button">
+                    <i class="fas fa-bars" onclick="openNav()"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div id="overlay" class="overlay" onclick="closeNav()"></div>
+    <div id="mySidebar" class="sidebar" style="width: {{ '54vw' if sidebar_open else '0' }};">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <form action="{{ url_for('blog.search', page = 'shop') }}" method="GET">
+            <div class="search-container">
+                <input type="text" name="query" placeholder="Search..." class="search-input" required value="{{ query }}">
+                <input type="hidden" name="tab" id="selectedTab" value="{{ tab | default('items') }}"> <!-- Default to items -->
+                <input type="hidden" name="category_name" id="selectedTab" value="{{ category_name }}"> 
+                <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <div class="tabs-container">
+            <div class="tab {% if tab == 'items' or tab is undefined %}active{% endif %}" id="items-tab" onclick="selectTab('items')">ITEMS</div>
+            <div class="tab {% if tab == 'stores' %}active{% endif %}" id="stores-tab" onclick="selectTab('stores')">STORES</div>            
+        </div>
+        <!-- Results Section -->
+        {% if tab == 'stores' %}
+        <h2 style="color: white; text-align: center;">Stores</h2>
+        {% if results %}
+            <ul style="list-style-type: none; padding: 0;">
+                {% for store in results %}
+                <li style="color: white; text-align: center; margin-bottom: 20px; list-style-type: none;">
+                    <a href="{{ url_for('blog.filter_products', category_name= 'Womenswear', store=store.name ,subcategory=':', type = ':')}}" style="text-decoration: none; color: white;">
+                        <img src="{{ store.logo_path  }}" alt="{{ store.name }}" style="width: 100px; height: auto; display: block; margin: 0 auto; border-radius: 5px;">
+                        <strong style="display: block; margin: 10px 0;">{{ store.name }} - Womenswear</strong>
+                    </a>
+                    <hr style="border: 0; height: 1px; background-color: white; width: 50%; margin: 20px auto;">
+                </li>
+                <li style="color: white; text-align: center; margin-bottom: 20px; list-style-type: none;">
+                    <a href="{{ url_for('blog.filter_products', category_name= 'Menswear', store=store.name ,subcategory=':', type = ':')}}" style="text-decoration: none; color: white;">
+                        <img src="{{ store.logo_path }}" alt="{{ store.name }}" style="width: 100px; height: auto; display: block; margin: 0 auto; border-radius: 5px;">
+                        <strong style="display: block; margin: 10px 0;">{{ store.name }} - Menswear</strong>
+                    </a>
+                    <hr style="border: 0; height: 1px; background-color: white; width: 50%; margin: 20px auto;">
+                </li>
+                <li style="color: white; text-align: center; margin-bottom: 20px; list-style-type: none;">
+                    <a href="{{ url_for('blog.filter_products', category_name= 'Kidswear', store=store.name ,subcategory=':', type = ':')}}" style="text-decoration: none; color: white;">
+                        <img src="{{ store.logo_path }}" alt="{{ store.name}}" style="width: 100px; height: auto; display: block; margin: 0 auto; border-radius: 5px;">
+                        <strong style="display: block; margin: 10px 0;">{{ store.name }} - Kidswear</strong>
+                    </a>
+                    <hr style="border: 0; height: 1px; background-color: white; width: 50%; margin: 20px auto;">
+                </li>
+                {% endfor %}
+            </ul>
+    {% else %}
+        <p style="color: white; text-align: center;">No stores found.</p>
+    {% endif %}
+    {% elif tab == 'items' %}
+        <h2 style="color: white; text-align: center;">Items</h2>
+        {% if results %}
+            <ul style="list-style-type: none; padding: 0;">
+                {% for item in results %}
+                <li style="color: white; text-align: center; margin-bottom: 20px; list-style-type: none;">
+                    <a href="{{ url_for('blog.item_details', product_id=item.id) }}" style="text-decoration: none; color: white;">
+                        <img src="{{ item.image_path }}" alt="{{ item.name }}" style="width: 100px; height: auto; display: block; margin: 0 auto; border-radius: 5px;">
+                        <strong style="display: block; margin: 10px 0;">{{ item.name }}</strong>
+                        <span style="display: block; margin: 10px 0;">{{ item.store }}</span>
+                        <span style="display: block; margin: 10px 0;">${{ item.price }}</span>
+                    </a>
+                    <hr style="border: 0; height: 1px; background-color: white; width: 50%; margin: 20px auto;">
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color: white; text-align: center;">No items found.</p>
+        {% endif %}
+    {% endif %}   
+    </div>     
+
+    <nav class="categories-bar">
+        <ul class="categories-links">
+            <li class="category-link">
+                <a href="#">New In</a>
+                <div class="dropdown-content" id="new-in-dropdown">
+                    <a href="#">New Arrivals</a>
+                    <a href="#">Trending</a>
+                    <a href="#">Seasonal</a>
+                </div>
+            </li>
+            <li class="category-link">
+                <a href="#">Stores</a>
+                <div class="dropdown-content" id="brands-dropdown">
+                    {% for store in stores %}
+                        <a href="{{ url_for('blog.filter_products', category_name= category_name,store=store.name ,subcategory=':', type = ':')}}">{{ store.name }}</a>
+                    {% endfor %}
+                </div>
+            </li>            
+            <li class="category-link">
+                <a href="{{ url_for('blog.filter_products', category_name= category_name, store=':' ,subcategory='Clothing', type = ':') }}">Clothing</a>
+                <div class="dropdown-content" id="clothing-dropdown">
+                    <div class="dropdown-sub-content">
+                        {% for item in clothing %}
+                            <a href="{{ url_for('blog.filter_products', category_name=category_name,store=':', subcategory='Clothing', type=item) }}">{{ item }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+            <li class="category-link">
+                <a href="{{ url_for('blog.filter_products', category_name=category_name,store=':',  subcategory='Shoes', type=':') }}">Shoes</a>
+                <div class="dropdown-content" id="shoes-dropdown">
+                    <div  class="dropdown-sub-content">
+                        {% for item in shoes %}
+                            <a href="{{ url_for('blog.filter_products', category_name=category_name,store=':',  subcategory='Shoes', type=item) }}">{{ item }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>            
+            <li class="category-link">
+                <a href="{{ url_for('blog.filter_products', category_name=category_name, store=':', subcategory='Accessories', type=':') }}">Accessories</a>
+                <div class="dropdown-content" id="accessories-dropdown">
+                    <div class="dropdown-sub-content">
+                        {% for item in accessories %}
+                            <a href="{{ url_for('blog.filter_products', category_name=category_name, store=':', subcategory='Accessories', type=item) }}">{{ item }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+            <li class="category-link">
+                <a href="#">Sale</a>
+                <div class="dropdown-content" id="sale-dropdown">
+                    <!-- Options for Sale -->
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+
+    <div class="new-in-section">
+        <h2>New In - {{ category_name | capitalize }}</h2>
+        <div class="new-in-items">
+            {% for product in productsnewin %}
+            <a href="{{ url_for('blog.item_details', product_id=product.id) }}" class="item-card-link">
+                <div class="item-card">
+                    <img src="{{ url_for('static', filename=product.image_path) }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p class="store-name">{{ product.store }}</p>
+                    <p class="price">$ {{ product.price }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="content-container">
+        <div class="text-content">
+            <h2>Elevate Your Activewear</h2>
+            <p>Explore our exclusive collection of activewear designed to boost your performance and style. From sleek designs to comfortable fabrics, find the perfect outfit that suits your active lifestyle.</p>
+        </div>
+        <div class="image-content">
+            <div class="image-overlay">
+                <img src="../static/images/activewear.jpg" alt="Activewear Collection">
+                <div class="overlay-text">Discover our activewear collection
+                    <div class="overlay-line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="trending-now">
+        <h2>Trending Now</h2>
+        <div class="trending-now-items">
+            {% for product in productstrendingnow %}
+            <a href="{{ url_for('blog.item_details', product_id=product.id) }}" class="item-card-link">
+                <div class="item-card">
+                    <img src="{{ url_for('static', filename=product.image_path) }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p class="store-name">{{ product.store }}</p>
+                    <p class="price">$ {{ product.price }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>    
+
+
+    <section id="page3" class="page page3">
+        <div class="services-container">
+            
+            <div class="services">
+                <div class="service">
+                    <i class="fas fa-shopping-cart service-icon"></i>
+                    <h3>Marketplace for Fashion</h3>
+                    <p>A dedicated space for small businesses to display and sell fashion products like clothing and accessories.</p>
+                </div>
+                <div class="service">
+                    <i class="fas fa-chart-line service-icon"></i>
+                    <h3>Analytics for Stores</h3>
+                    <p>Offering detailed analytics to help stores understand their sales performance, customer behavior, and other important metrics to make informed business decisions.</p>
+                </div>
+                <div class="service">
+                    <!-- GPT Icon from SVG -->
+                    <div class="service-icon">
+                        <img src="../static/images/chat-gpt.png" alt="GPT Icon" class="gpt-icon">
+                    </div>
+                    <h3>Stylist Chatbot</h3>
+                    <p>Featuring a chatbot that acts like a stylist, offering personalized recommendations and assistance to customers, enhancing their shopping experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="social-icons">
+                <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p>&copy; 2024 Multi Store Website. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../static/JS/shop.js"></script>
+</body>
+</html>

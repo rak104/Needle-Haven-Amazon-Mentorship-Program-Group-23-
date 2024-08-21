@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Sign Up</title>
+    <link rel="stylesheet" href="../static/CSS/signup-store.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('blog.index') }}">
+                <img src="../static/images/logo.png" alt="Logo" class="logo-img original">
+                <img src="../static/images/logo-inverse.png" alt="Alternate Logo" class="logo-img alternate">
+            </a>
+        </div>
+        <div class="header-right"></div>
+        <div class="icon-container">
+            <button class="gpt-button">
+                <img src="../static/images/gpt-icon.svg" alt="GPT Icon" class="gpt-icon-img">
+            </button>
+            <div class="profile-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="cart-button">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="navbar-button">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <div class="background-container">
+        <div class="content">
+            <div class="bubble-container"></div> <!-- Bubble Container -->
+            <div class="sign-up-container">  
+                <div class="sign-up-header">
+                    <h1>Store Sign Up</h1>
+                </div>
+                <div class="sign-up-form">
+                    <form action="{{ url_for('auth.register_store') }}" method="POST">
+                        <div class="input-group">
+                            <i class="fas fa-store"></i>
+                            <input type="text" name = "name" placeholder="Name" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="text" name="password" placeholder="Password" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" name="address" placeholder="Address" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" name = "email" placeholder="Email" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" name = "phone_number" placeholder="Phone Number" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-info-circle"></i>
+                            <textarea  name="description" placeholder="Description" rows="8" required></textarea>
+                        </div>
+                        <button type="submit">Sign Up</button>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="error-messages">
+                                {% for message in messages %}
+                                <p class="error" style="color: black;">{{ message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% endwith %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/JS/signup-store.js"></script>
+</body>
+</html>

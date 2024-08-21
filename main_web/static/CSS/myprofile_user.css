@@ -1,0 +1,253 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 200vh; /* Set minimum height to allow scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/*-------------------------- header --------------------*/
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 20px;
+    position: fixed; /* Make header fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 10; /* Ensure header is above other elements */
+}
+
+
+.logo {
+    top: -10px;
+    position: relative;
+    z-index: 15; /* Ensure the logo is above header-right */
+}
+
+.logo img {
+    position: absolute;
+    top: -10px; /* Adjust this value to move the logo higher */
+    left: 0;
+    height: 60px;
+    width: 120px;
+    transition: opacity 0.3s ease; /* Smooth transition for filter change */
+}
+
+.alternate {
+    opacity: 0; /* Start with the alternate logo hidden */
+}
+
+.header-right {
+    position: absolute;
+    background-color: black;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 220px; /* Initial width */
+    transition: width 0.5s ease; /* Smooth transition for width change */
+    z-index: 9; /* Ensure header-right is below the icons and logo */
+}
+
+.icon-container {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 25px;
+    z-index: 20; /* Ensure icon-container is above header-right */
+}
+
+.gpt-icon-img {
+    width: 45px;  /* Adjust the width as needed */
+    height: 24px;  /* Adjust the height as needed */
+}
+
+.icon-container i{
+    font-size: 20px;
+    cursor: pointer;
+    fill: white; /* Ensure the SVG icon is white */
+}
+
+.icon-container i:hover,
+.icon-container img:hover{
+    transform: scale(1.2); /* Scale the icon to 120% of its original size */
+    transition: transform 0.2s ease-in-out; /* Smooth transition effect */
+}
+
+.cart-button i {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.gpt-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.gpt-button img {
+    width: 52px; /* Adjust as needed */
+    height: 32px; /* Adjust as needed */
+    display: block;
+}
+
+
+
+.gpt-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.gpt-options {
+    display: none; /* Initially hidden */
+    position: absolute;
+    background-color: white; /* Dropdown background */
+    color: black; /* Dropdown text color */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1; /* Ensure the dropdown is above other content */
+}
+
+.gpt-options a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.gpt-options a:hover {
+    background-color: #ddd; /* Highlight option on hover */
+}
+
+.gpt-dropdown:hover .gpt-options {
+    display: block; /* Show dropdown on hover */
+}
+
+
+
+
+/*------------------------------info---------------------*/
+
+
+
+.profile-container {
+    margin-top: 100px;
+    padding: 20px;
+    max-width: 600px;
+    margin-left: 25px;
+ 
+}
+
+.profile-container h1 {
+    text-align: left;
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 300;
+    
+    
+}
+
+.profile-details p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-left: 25px;
+    line-height: 1.8;
+}
+
+.profile-details{
+    border-bottom: 0.8px solid rgb(128, 128, 128);
+    padding-bottom: 15px; /* Space between content and the line */
+    margin-bottom: 20px;
+}
+
+
+.password-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between this and the next line */
+    
+}
+
+.hashed-password {
+    margin-right: 10px; /* Space between the password and the button */
+}
+
+.change-password-btn {
+    padding: 3px 10px;
+    font-size: 11px;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: black;
+    transition: background-color 0.3s;
+    margin-left: 25px;
+}
+
+
+
+/*----------------------change password --------------*/
+
+
+
+.change-password-section {
+    margin-left: 25px;
+    display: none; /* Hide the section initially */
+    margin-top: 20px; /* Space above the section */
+    padding-top: 10px; /* Space above the fields */
+    
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.change-password-section button {
+
+    padding: 3px 10px;
+    font-size: 11px;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: black;
+    transition: background-color 0.3s;
+   
+}

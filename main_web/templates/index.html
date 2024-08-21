@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Store Website</title>
+    <link rel="stylesheet" href="../static/CSS/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('blog.index') }}">
+                <img src="../static/images/logo.png" alt="Logo" class="logo-img original">
+                <img src="../static/images/logo-inverse.png" alt="Alternate Logo" class="logo-img alternate">
+            </a>
+        </div>
+        <div class="header-right"></div>
+        <div class="icon-container">
+            <div class="gpt-dropdown">
+                <button class="gpt-button">
+                    <img src="../static/images/gpt-icon.svg" alt="GPT Icon" class="gpt-icon-img">
+                </button>
+                <div class="gpt-options">
+                    <a href="{{ url_for('blog.product_finder') }}" class="gpt-option">Product Finder</a>
+                    <a href="{{ url_for('blog.fashion_expert') }}" class="gpt-option">Fashion Expert</a>
+                    <a href="{{ url_for('blog.personalized_stylist') }}" class="gpt-option">Personalized Stylist</a>
+                    <a href="{{ url_for('blog.virtual_model') }}"class="gpt-option">Virtual Model</a>
+                </div>
+            </div>
+            <div class="profile-icon">
+                <a href="{{ url_for('blog.profile') }}">
+                    <i class="fas fa-user" style="color: white;"></i>
+                </a>
+            </div>
+            <div class="cart-button">
+                <a href="{{ url_for('blog.view_cart') }}">
+                    <i class="fas fa-shopping-cart" style="color: white;" ></i>
+                </a>
+            </div>
+            <div class="navbar-button">
+                <i class="fas fa-bars" onclick="openNav()"  style="color: white;"></i>
+            </div>
+        </div>
+    </header>
+    <div id="overlay" class="overlay" onclick="closeNav()"></div>
+    <div id="mySidebar" class="sidebar" style="width: {{ '54vw' if sidebar_open else '0' }};">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <form action="{{ url_for('blog.search', page = 'index') }}" method="GET">
+            <div class="search-container">
+                <input type="text" name="query" placeholder="Search..." class="search-input" required value="{{ query }}">
+                <input type="hidden" name="tab" id="selectedTab" value="{{ tab | default('items') }}"> <!-- Default to items -->
+                <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <div class="tabs-container">
+            <div class="tab {% if tab == 'items' or tab is undefined %}active{% endif %}" id="items-tab" onclick="selectTab('items')">ITEMS</div>
+            <div class="tab {% if tab == 'stores' %}active{% endif %}" id="stores-tab" onclick="selectTab('stores')">STORES</div>            
+        </div>
+        <!-- Results Section -->
+        {% if tab == 'stores' %}
+        <h2 style="color: white; text-align: center;">Stores</h2>
+        {% if results %}
+            <ul style="list-style-type: none; padding: 0;">
+                {% for store in results %}
+                <li style="color: white; text-align: center; margin-bottom: 20px; list-style-type: none;">
+                    <a href="{{ url_for('blog.filter_products', category_name= 'Womenswear', store=store.name ,subcategory=':', type = ':')}}" style="text-decoration: none; color: white;">
+                        <img src="{{ store.logo_path  }}" alt="{{ store.name }}" style="width: 100px; height: auto; display: block; margin: 0 auto; border-radius: 5px;">
+                        <strong style="display: block; margin: 10px 0;">{{ store.name }} - Womenswear</strong>
+                    </a>
+                    <hr style="border: 0; height: 1px; background-color: white; width: 50%; margin: 20px auto;">
+                </li>
+                <li style="color: white; text-align: center; margin-bottom: 20px; list-style-type: none;">
+                    <a href="{{ url_for('blog.filter_products', category_name= 'Menswear', store=store.name ,subcategory=':', type = ':')}}" style="text-decoration: none; color: white;">
+                        <img src="{{ store.logo_path }}" alt="{{ store.name }}" style="width: 100px; height: auto; display: block; margin: 0 auto; border-radius: 5px;">
+                        <strong style="display: block; margin: 10px 0;">{{ store.name }} - Menswear</strong>
+                    </a>
+                    <hr style="border: 0; height: 1px; background-color: white; width: 50%; margin: 20px auto;">
+                </li>
+                <li style="color: white; text-align: center; margin-bottom: 20px; list-style-type: none;">
+                    <a href="{{ url_for('blog.filter_products', category_name= 'Kidswear', store=store.name ,subcategory=':', type = ':')}}" style="text-decoration: none; color: white;">
+                        <img src="{{ store.logo_path }}" alt="{{ store.name}}" style="width: 100px; height: auto; display: block; margin: 0 auto; border-radius: 5px;">
+                        <strong style="display: block; margin: 10px 0;">{{ store.name }} - Kidswear</strong>
+                    </a>
+                    <hr style="border: 0; height: 1px; background-color: white; width: 50%; margin: 20px auto;">
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color: white; text-align: center;">No stores found.</p>
+        {% endif %}
+    {% elif tab == 'items' %}
+        <h2 style="color: white; text-align: center;">Items</h2>
+        {% if results %}
+            <ul style="list-style-type: none; padding: 0;">
+                {% for item in results %}
+                <li style="color: white; text-align: center; margin-bottom: 20px; list-style-type: none;">
+                    <a href="{{ url_for('blog.item_details', product_id=item.id) }}" style="text-decoration: none; color: white;">
+                        <img src="{{ item.image_path }}" alt="{{ item.name }}" style="width: 100px; height: auto; display: block; margin: 0 auto; border-radius: 5px;">
+                        <strong style="display: block; margin: 10px 0;">{{ item.name }}</strong>
+                        <span style="display: block; margin: 10px 0;">{{ item.store }}</span>
+                        <span style="display: block; margin: 10px 0;">${{ item.price }}</span>
+                    </a>
+                    <hr style="border: 0; height: 1px; background-color: white; width: 50%; margin: 20px auto;">
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color: white; text-align: center;">No items found.</p>
+        {% endif %}
+    {% endif %}   
+    </div>     
+    <div class="bubble-container"></div> <!-- Bubble Container -->
+    <div class="content">
+        <section class="page page1">
+            <button class="contact-button" id="contactButton">▶ Contact Us</button>
+            <button class="shop-button" onclick="location.href='{{ url_for('blog.shop')}}'">▶ Shop</button>
+            <div class="container">
+                <div class="images">
+                    <img src="../static/images/image1.jpg" alt="Image 1">
+                    <img src="../static/images/image2.jpg" alt="Image 2">
+                    <img src="../static/images/image3.jpg" alt="Image 3">
+                    <img src="../static/images/image4.jpg" alt="Image 4">
+                </div>
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" class="mask">
+                    <defs>
+                        <mask id="text-mask">
+                            <rect width="100%" height="100%" fill="white"/>
+                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="300" font-weight="bold" fill="black" font-family="Arial">NH</text>
+                        </mask>
+                    </defs>
+                    <rect width="100%" height="100%" fill="white" mask="url(#text-mask)"/>
+                </svg>
+                
+            </div>
+            <h1>SHOP LOCAL, WEAR UNIQUE.</h1>
+            <p>Small Business Marketplace, Fashion Items, Trendy Outfits, Exclusive Collections, Support Local, Business Growth, Fashion Accessories.</p>
+
+        </section>
+        
+        <section class="page page7">
+
+            <div class="image-row">
+                <div class="image-container">
+                    <img src="../static/images/womenswear.jpg" alt="Womenswear">
+                    <div class="overlay">
+                        <div class="text">Womenswear</div>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="../static/images/menswear.jpg" alt="Menswear">
+                    <div class="overlay">
+                        <div class="text">Menswear</div>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="../static/images/kidswear.jpg" alt="Kidswear">
+                    <div class="overlay">
+                        <div class="text">Kidswear</div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="page page6">
+            <h1>FEATURED ITEMS</h1>
+            <div class="items-container">
+                {% for product in products %}
+                <a href="{{ url_for('blog.item_details', product_id=product.id) }}" class="item-card-link">
+                    <div class="item-card">
+                        <img src="{{ url_for('static', filename=product.image_path) }}" alt="{{ product.name }}">
+                        <h3>{{ product.name }}</h3>
+                        <p class="store-name">{{ product.store }}</p>
+                        <p class="price">$ {{ product.price }}</p>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        
+        <section class="page page5">
+            <div class="content-container">
+                <!-- Split Container: Video on the left and images on the right -->
+                <div class="split-container">
+                    <div class="left-section">
+                        <video autoplay muted loop>
+                            <source src="../static/videos/sample-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+        
+                    <div class="right-section">
+                        <div class="images-section">
+                            <div class="top-image">
+                                <img src="../static/images/top-store-1.jpg" alt="Top Store 1">
+                            </div>
+                            <div class="bottom-image">
+                                <img src="../static/images/top-store-2.jpg" alt="Top Store 2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Title Section: Positioned to the right of the split container -->
+                <div class="title-section">
+                    <h1>SPOTLIGHT ON</h1>
+                </div>
+            </div>
+        </section>
+        
+        
+        
+
+
+        <section class="page page2">
+            <div class="about-container">
+                <h1>Needle Haven - A home of fashion</h1>
+                <div class="content-container">
+                    <div class="left-container">
+                        <div class="blue-rectangle">
+                            <div class="changing-text" id="changingText"></div>
+                        </div>
+                    </div>
+                    <div class="right-container">
+                        <h2>━    who we are</h2>
+                        <p>
+                            At Needle Haven, we are dedicated to empowering small businesses by providing a unique platform where they can showcase and sell their fashion items. Our mission is to support local artisans and entrepreneurs, giving them the tools and visibility they need to succeed in the competitive fashion industry. We believe in the power of community and sustainability, and our goal is to bring unique, handcrafted, and ethically made fashion to a global audience. Join us in celebrating creativity, innovation, and the spirit of entrepreneurship.
+                        </p>
+
+                        <div class="thin-line"></div>
+
+                        <div class="sub-sections">
+                            <div class="sub-section">
+                                <h2>━ creativity</h2>
+                                <p>Our platform fosters creativity by giving artisans a space to showcase their unique designs and innovative fashion items.</p>
+                            </div>
+                            <div class="sub-section">
+                                <h2>━ technology</h2>
+                                <p>We leverage cutting-edge technology to provide a seamless shopping experience and tools that help small businesses grow.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="page3" class="page page3">
+            <div class="services-container">
+                
+                <div class="services">
+                    <div class="service">
+                        <i class="fas fa-shopping-cart service-icon"></i>
+                        <h3>Marketplace for Fashion</h3>
+                        <p>A dedicated space for small businesses to display and sell fashion products like clothing and accessories.</p>
+                    </div>
+                    <div class="service">
+                        <i class="fas fa-chart-line service-icon"></i>
+                        <h3>Analytics for Stores</h3>
+                        <p>Offering detailed analytics to help stores understand their sales performance, customer behavior, and other important metrics to make informed business decisions.</p>
+                    </div>
+                    <div class="service">
+                        <!-- GPT Icon from SVG -->
+                        <div class="service-icon">
+                            <img src="../static/images/chat-gpt.png" alt="GPT Icon" class="gpt-icon">
+                        </div>
+                        <h3>Stylist Chatbot</h3>
+                        <p>Featuring a chatbot that acts like a stylist, offering personalized recommendations and assistance to customers, enhancing their shopping experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="page page4" id="contactSection">
+            <h1>Contact Us</h1>   
+            <div class="contact-form" id="contact-form">
+                <form action="{{ url_for('blog.contact_us')}}" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Full Name *" required>
+                    </div>
+                    <div class="form-group phone-group">
+                        <div class="prefix">+961</div>
+                        <input type="tel" id="phone" name="phone_number" placeholder="Phone Number *" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Email Address *" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="5" placeholder="Your message including company name, project details and budget" required></textarea>
+                    </div>
+                    <button type="submit">Submit</button>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="error-messages">
+                            {% for message in messages %}
+                            <p class="error" style="color: black;">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+                </form>
+            </div>
+            <footer class="footer">
+                <div class="footer-container">
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <p>&copy; 2024 Multi Store Website. All rights reserved.</p>
+                </div>
+            </footer>
+
+
+        </section>
+    </div>
+
+    <script src="../static/JS/scripts.js"></script>
+</body>
+</html>

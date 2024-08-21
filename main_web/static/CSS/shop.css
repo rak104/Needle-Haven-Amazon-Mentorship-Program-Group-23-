@@ -1,0 +1,716 @@
+/* Header Styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 20px;
+    position: fixed; /* Make header fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1000; /* Ensure header is above other elements */
+    border-bottom: 0.8px solid #434343d3;
+}
+
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 100%; /* Ensure height matches the header */
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    height: 100%; /* Ensure height matches the header */
+    z-index: 1000;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+    z-index: 1000;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #333;
+    padding: 10px 20px;
+    z-index:10000;
+    position:relative;
+    display: block;
+}
+
+.nav-links li a:hover {
+    color: rgb(0, 0, 0); /* Highlight color */
+}
+
+/* Center Logo */
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 0; /* Ensure the logo is above header-right */
+}
+
+.logo img {
+    top: 5px;
+    position: relative;
+    height: 60px;
+    width: 120px;
+    transition: opacity 0.3s ease; /* Smooth transition for filter change */
+}
+
+.alternate {
+    opacity: 0; /* Start with the alternate logo hidden */
+}
+
+/* Right Side Icons */
+.header-right {
+    position: absolute;
+    background-color: black;
+    right: 40px;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 220px;
+    transition: width 0.5s ease;
+    z-index: 9;
+    display: flex;
+    justify-content: center; /* Center the icon-container horizontally */
+    align-items: center;
+    gap: 20px;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 25px;
+    z-index: 20; /* Ensure icon-container is above header-right */
+}
+
+
+.gpt-icon-img {
+    width: 45px;  /* Adjust the width as needed */
+    height: 24px;  /* Adjust the height as needed */
+}
+
+.icon-container i {
+    font-size: 20px;
+    cursor: pointer;
+    fill: white; /* Ensure the SVG icon is white */
+}
+
+.icon-container i:hover,
+.icon-container img:hover {
+    transform: scale(1.2); /* Scale the icon to 120% of its original size */
+    transition: transform 0.2s ease-in-out; /* Smooth transition effect */
+}
+
+.cart-button i {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.gpt-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.gpt-button img {
+    width: 52px; /* Adjust as needed */
+    height: 32px; /* Adjust as needed */
+    display: block;
+}
+
+.gpt-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.gpt-options {
+    display: none; /* Initially hidden */
+    position: absolute;
+    background-color: white; /* Dropdown background */
+    color: black; /* Dropdown text color */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1; /* Ensure the dropdown is above other content */
+}
+
+.gpt-options a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.gpt-options a:hover {
+    background-color: #ddd; /* Highlight option on hover */
+}
+
+.gpt-dropdown:hover .gpt-options {
+    display: block; /* Show dropdown on hover */
+}
+
+/* Shop Sections Styling */
+.shop-sections {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    margin-top: 100px; /* Adjust margin to make space for the fixed header */
+}
+
+.shop-section {
+    width: 30%;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    text-align: center;
+}
+
+.shop-section h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.shop-section p {
+    font-size: 16px;
+    color: #666;
+}
+
+.shop-section:hover {
+    transform: scale(1.05);
+}
+
+/* Footer Styling */
+
+
+
+
+.categories-bar {
+    background-color: #ffffff;
+    border-bottom: 0.8px solid #535151c5; /* Optional bottom border */
+    padding: 10px 20px;
+    position: fixed;
+    top: 100px; /* Positioned right below the header */
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.categories-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 30px;
+}
+
+.categories-links li a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #333;
+    padding: 10px 15px;
+}
+
+.categories-links li a:hover {
+    color: rgb(0, 0, 0); /* Highlight color */
+}
+
+.nav-links li a.active {
+    border-bottom: 0.8px solid rgb(0, 0, 0); /* Red line under the active category */
+    color: rgb(0, 0, 0); /* Change text color for active category */
+    padding-bottom: 5px; /* Adjust padding to ensure border is visible */
+}
+
+.category-item {
+    position: relative;
+}
+
+
+
+
+/* Categories bar dropdown */
+/* Ensure each category link has a position relative so the dropdown can be positioned absolutely */
+.category-link {
+    position: relative;
+}
+
+.dropdown-content {
+    display:none;
+    min-height :100px;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    min-width: 200px;
+    top: calc(100% + 6px); /* Position it directly below the category */
+    left: 0;
+}
+
+.category-link:hover .dropdown-content {
+    display: block; /* Show dropdown on hover */
+}
+
+/* Styling for the dropdown links */
+.dropdown-content a {
+    color: black;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    z-index: 10002;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+
+/*------------------- new in -------------------*/
+
+
+.new-in-section {
+    margin-top: 100px;
+    padding: 50px;
+    background-color: #ffffff;
+    
+}
+
+.new-in-section h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.new-in-items {
+    display: flex;
+    justify-content: space-between;
+    gap: 70px;
+}
+
+.item {
+    background-color: #fff;
+    border: 1px solid #ffffff;
+    overflow: hidden;
+    text-align: center;
+    flex: 1;
+    transition: transform 0.3s;
+}
+
+.item img {
+    width: 190px;
+    height: 250px;
+    object-fit: cover;
+}
+
+.item-details {
+    padding: 15px;
+}
+
+.item-details h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #555;
+    text-align: left;
+}
+
+.item-details p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #777;
+    text-align: left;
+
+}
+
+
+/*------------------------activewear-----------------*/
+
+.content-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+}
+
+.text-content {
+    flex: 1;
+    padding: 50px;
+    text-align: left;
+}
+
+
+.text-content h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight:400;
+    letter-spacing: 1px;
+}
+
+.text-content p {
+    font-size: 18px;
+    color: #7f8c8d;
+    line-height: 1.6;
+    font-family: 'Georgia', serif;
+}
+
+.image-content {
+    flex: 1;
+    position: relative;
+}
+
+.image-overlay {
+    position: relative;
+    
+    overflow: hidden;
+}
+
+.image-overlay img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.image-overlay .overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 20px;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;;
+    padding: 10px;
+    
+}
+.image-overlay .overlay-text .overlay-line {
+    margin-top: 10px;
+    width: 70%;
+    height: 1px;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+.image-overlay:hover img {
+    filter: brightness(40%);
+}
+
+.image-overlay:hover .overlay-text {
+    opacity: 1;
+}
+
+
+/*------------------- trenidng now ---------------*/
+.trending-now {
+    padding: 50px;
+    background-color: #ffffff;
+    
+}
+
+.trending-now h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.trending-now-items {
+    display: flex;
+    justify-content: space-between;
+    gap: 70px;
+}
+
+
+
+
+
+/*------------------------our services-------------------*/
+.page3 {
+    border-top: 0.8px solid #585858; /* 2px width, solid style, black color */
+}
+
+
+
+.services-container {
+    text-align: center;
+    padding: 40px;
+    background-color: #ffffff; /* Light background color */
+    border-top: #000000;
+}
+
+.services {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.service {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 30%;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.service-icon {
+    font-size: 25px;
+    color: #000000; /* Icon color */
+    margin-bottom: 20px;
+    height: 25px;
+    
+}
+
+.gpt-icon {
+    width: 33px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+
+.service h3 {
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.service p {
+    font-size: 12px;
+    color: #666;
+}
+
+.service:hover {
+    transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+    .services {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .service {
+        width: 80%;
+    }
+}
+
+
+
+/*--------------------menu sidebar -------------*/
+.overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 20; /* Ensure the overlay is below the sidebar */
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.search-input {
+    padding: 10px;
+    width: 320%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-button {
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 20px;
+    color: white;
+}
+
+
+.sidebar {
+    height: 93.85%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.836);
+    overflow-x: hidden;
+    transition: 0.5s;
+    z-index: 1000; /* Ensure sidebar is above other elements */
+    padding-top: 60px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: rgb(255, 255, 255);
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #007BFF;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: white;
+    border: none;
+}
+
+.tabs-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.tab {
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    position: relative;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #ffffff;
+}
+
+
+/*---------------------footer--------------*/
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.social-icons a {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+.social-icons a:hover {
+    color: #ddd;
+}
+
+
+.items-container {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Creates 4 equal columns */
+    gap: 20px;
+    padding: 20px 80px;
+
+}
+
+
+.item-card {
+    background-color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.item-card-link {
+    text-decoration: none; /* Remove the underline */
+    color: inherit; /* Inherit the color from the parent element */
+}
+
+.item-card-link h3, .item-card-link p {
+    margin: 0; /* Remove any default margin */
+    color: black; /* Set the text color to black or any other desired color */
+}
+
+
+.item-card img {
+    width: 100%;
+    height: 290px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.item-card h3 {
+    text-align: left;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.item-card .store-name {
+    text-align: left;
+    margin-top: -5px;
+    margin-left: 5px;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.item-card .price {
+    margin-top: 20px;
+    text-align: left;
+    margin-left: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.item-card:hover {
+    transform: scale(1.05);
+}

@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: white;
+}
+
+/*-----------------------------header--------------------*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 20px;
+    position: fixed; /* Make header fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 10; /* Ensure header is above other elements */
+}
+
+
+.logo {
+    top: -10px;
+    position: relative;
+    z-index: 15; /* Ensure the logo is above header-right */
+}
+
+.logo img {
+    position: absolute;
+    top: -10px; /* Adjust this value to move the logo higher */
+    left: 0;
+    height: 60px;
+    width: 120px;
+    transition: opacity 0.3s ease; /* Smooth transition for filter change */
+}
+
+.alternate {
+    opacity: 0; /* Start with the alternate logo hidden */
+}
+
+.header-right {
+    position: absolute;
+    background-color: black;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 220px; /* Initial width */
+    transition: width 0.5s ease; /* Smooth transition for width change */
+    z-index: 9; /* Ensure header-right is below the icons and logo */
+}
+
+.icon-container {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 25px;
+    z-index: 20; /* Ensure icon-container is above header-right */
+}
+
+.gpt-icon-img {
+    width: 45px;  /* Adjust the width as needed */
+    height: 24px;  /* Adjust the height as needed */
+}
+
+.icon-container i{
+    font-size: 20px;
+    cursor: pointer;
+    fill: white; /* Ensure the SVG icon is white */
+}
+
+.icon-container i:hover,
+.icon-container img:hover{
+    transform: scale(1.2); /* Scale the icon to 120% of its original size */
+    transition: transform 0.2s ease-in-out; /* Smooth transition effect */
+}
+
+.cart-button i {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.gpt-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.gpt-button img {
+    width: 52px; /* Adjust as needed */
+    height: 32px; /* Adjust as needed */
+    display: block;
+}
+/*--------------------Bubble-Container-----------------*/
+.bubble-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -60px;
+    border-radius: 50%;
+    animation: moveUp 8s linear infinite;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Add shadow */
+}
+
+.bubble.green {
+    background-color: rgba(252, 199, 199, 0.815);
+}
+
+.bubble.pink {
+    background-color: rgba(255, 227, 178, 0.877);
+}
+
+.bubble.blue{
+    background-color: rgb(229, 172, 93);
+}
+.bubble.yellow{
+    background-color: rgba(168, 112, 61, 0.966);
+}
+
+@keyframes moveUp {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-100vh);
+    }
+}
+
+/*--------------------General-----------------*/
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 80px); /* Adjusts for the header height */
+    color: white; /* Text color white */
+    box-sizing: border-box;
+}
+
+.sign-up-container {
+    background: transparent;
+    padding: 0;
+    width: 650px;
+    max-width: 90%;
+    text-align: center;
+    position: relative;
+    z-index: 9;
+    max-height: calc(100vh - 120px); /* Prevents overflow below the header */
+}
+
+.sign-up-header {
+    background-color: black;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 30px; /* Reduced padding to fit content */
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+.sign-up-header h1 {
+    margin: 0; /* Remove bottom margin to save space */
+    font-size: 24px; /* Adjust font size if necessary */
+    color: white;
+    text-transform: uppercase; /* Capitalize letters */
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+.sign-up-form {
+    text-align: center; /* Center the form content */
+    padding: 20px; /* Add padding to the form */
+    overflow-y: auto; /* Allow scrolling if the content overflows */
+    max-height: calc(100vh - 200px); /* Adjust form height to fit without scrolling */
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background: white;
+    padding: 15px; /* Reduced padding */
+    width: 90%; /* Adjusted width for better alignment */
+    margin-left: auto; /* Center the input group */
+    margin-right: auto; /* Center the input group */
+    color: black;
+    border: 1px solid black; /* Add black border */
+}
+
+.input-group i {
+    color: black;
+}
+
+.input-group input,
+.input-group textarea {
+    border: none;
+    font-family: monospace;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    color: black;
+    padding-left: 10px;
+    box-sizing: border-box; /* Ensure padding is included within the element's total width and height */
+}
+
+.input-group textarea {
+    resize: none;
+}
+
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+    color: rgba(0, 0, 0, 0.445);
+}
+
+button {
+    width: 50%; /* Increased width for better alignment */
+    margin-left: auto; /* Center the button */
+    margin-right: auto; /* Center the button */
+    padding: 10px;
+    border: none;
+    background: black;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: #555;
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Bag</title>
+    <link rel="stylesheet" href="../static/CSS/shopping_bag.css"> <!-- Link to your shop.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('blog.index') }}">
+                <img src="../static/images/logo.png" alt="Logo" class="logo-img original">
+                <img src="../static/images/logo-inverse.png" alt="Alternate Logo" class="logo-img alternate">
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="icon-container">
+                <div class="gpt-dropdown">
+                    <button class="gpt-button">
+                        <img src="../static/images/gpt-icon.svg" alt="GPT Icon" class="gpt-icon-img">
+                    </button>
+                    <div class="gpt-options">
+                        <a href="{{ url_for('blog.product_finder') }}" class="gpt-option">Product Finder</a>
+                        <a href="{{ url_for('blog.fashion_expert') }}" class="gpt-option">Fashion Expert</a>
+                        <a href="{{ url_for('blog.personalized_stylist') }}" class="gpt-option">Personalized Stylist</a>
+                        <a href="{{ url_for('blog.virtual_model') }}"class="gpt-option">Virtual Model</a>
+                    </div>
+                </div>
+                <div class="profile-button">
+                    <a href="{{ url_for('blog.profile') }}">
+                        <i class="fas fa-user" style="color: white;"></i>
+                    </a>
+                </div>
+                <div class="cart-button">
+                    <a href="{{ url_for('blog.view_cart') }}">
+                        <i class="fas fa-shopping-cart" style="color: white;" ></i>
+                    </a>
+                </div>
+                <div class="navbar-button">
+                    <i class="fas fa-bars" onclick="openNav()"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="shopping-bag-container">
+        <h1 class="shopping-bag-title">SHOPPING BAG</h1>
+        <div class="shopping-bag-content">
+            <!-- Left: Items List -->
+            <div class="items-list" id="items-list">
+                <!-- Dynamically insert items here -->
+                {% for item in cart_items %}
+                <div class="item-row">
+                    <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.name }}" class="item-image">
+                    <div class="item-details">
+                        <p class="item-name">{{ item.name }}</p>
+                        <p class="item-store">{{ item.store }}</p>
+                        <p class="item-price">${{ item.price }}</p>
+                    </div>
+                    <form action="{{ url_for('blog.remove_from_cart') }}" method="POST" style="display: inline;">
+                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                        <button type="submit" class="delete-item-button"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+    
+            <!-- Right: Summary -->
+            <div class="summary">
+                <h2>Summary</h2>
+                <div class="summary-detail">
+                    <p>Subtotal</p>
+                    <p id="subtotal" name = 'subtotal'>
+                        ${{subtotal }}
+                    </p>
+                </div>
+                <div class="summary-detail">
+                    <p>Delivery Charge</p>
+                    <p id="delivery-charge">$3.00</p>
+                </div>
+                <hr class="summary-divider">
+                <div class="summary-total">
+                    <p>Total</p>
+                    <p id="total">
+                        ${{subtotal + 3.00 }}
+                    </p>
+                </div>
+                <form action="{{ url_for('blog.proceed_to_buy') }}" method="POST" style="display: inline;">
+                    <button class="checkout-button">Go To Checkout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    <section id="page3" class="page page3">
+        <div class="services-container">
+            
+            <div class="services">
+                <div class="service">
+                    <i class="fas fa-shopping-cart service-icon"></i>
+                    <h3>Marketplace for Fashion</h3>
+                    <p>A dedicated space for small businesses to display and sell fashion products like clothing and accessories.</p>
+                </div>
+                <div class="service">
+                    <i class="fas fa-chart-line service-icon"></i>
+                    <h3>Analytics for Stores</h3>
+                    <p>Offering detailed analytics to help stores understand their sales performance, customer behavior, and other important metrics to make informed business decisions.</p>
+                </div>
+                <div class="service">
+                    <!-- GPT Icon from SVG -->
+                    <div class="service-icon">
+                        <img src="../static/images/chat-gpt.png" alt="GPT Icon" class="gpt-icon">
+                    </div>
+                    <h3>Stylist Chatbot</h3>
+                    <p>Featuring a chatbot that acts like a stylist, offering personalized recommendations and assistance to customers, enhancing their shopping experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="social-icons">
+                <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p>&copy; 2024 Multi Store Website. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../static/JS/checkout.js"></script>
+
+</body>
+</html>
+    

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-On</title>
+    <link rel="stylesheet" href="../static/CSS/virtual_model.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('blog.index') }}">
+                <img src="../static/images/logo.png" alt="Logo" class="logo-img original">
+                <img src="../static/images/logo-inverse.png" alt="Alternate Logo" class="logo-img alternate">
+            </a>
+        </div>
+        <div class="header-right"></div>
+        <div class="icon-container">
+            <div class="gpt-dropdown">
+                <button class="gpt-button">
+                    <img src="../static/images/gpt-icon.svg" alt="GPT Icon" class="gpt-icon-img">
+                </button>
+                <div class="gpt-options">
+                    <a href="{{ url_for('blog.product_finder') }}" class="gpt-option">Product Finder</a>
+                    <a href="{{ url_for('blog.fashion_expert') }}" class="gpt-option">Fashion Expert</a>
+                    <a href="{{ url_for('blog.personalized_stylist') }}" class="gpt-option">Personalized Stylist</a>
+                    <a href="{{ url_for('blog.virtual_model') }}"class="gpt-option">Virtual Model</a>
+                </div>
+            </div>
+            <div class="profile-icon">
+                <a href="{{ url_for('blog.profile') }}">
+                    <i class="fas fa-user" style="color: white;"></i>
+                </a>
+            </div>
+            <div class="cart-button">
+                <a href="{{ url_for('blog.view_cart') }}">
+                    <i class="fas fa-shopping-cart" style="color: white;" ></i>
+                </a>
+            </div>
+            <div class="navbar-button">
+                <i class="fas fa-bars" onclick="openNav()"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <i class="fa-solid fa-camera"></i>
+            Virtual Try-On
+        </div>
+        
+        <div class="chat-content" id="chatWindow">
+            <div class="message bot-message">
+                Hi, I'm your Virtual Try-On assistant. Upload a product image, and I'll show you how it looks on a model!
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <label for="imageUpload" class="upload-label">
+                <i class="fas fa-plus"></i>
+            </label>
+            <input type="file" id="imageUpload" style="display: none;" accept="image/*">
+            <select id="modelSelect" class="model-select">
+                <option value="" disabled selected>Choose your model</option>
+                <option value="woman">Female</option>
+                <option value="man">Male</option>
+            </select>
+            <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        
+    </div>
+
+    <script>
+        document.getElementById('sendButton').addEventListener('click', function() {
+            const imageUpload = document.getElementById('imageUpload').files[0];
+            const modelType = document.getElementById('modelSelect').value;
+            
+            if (imageUpload && modelType) {
+                const formData = new FormData();
+                formData.append('image', imageUpload);
+                formData.append('model', modelType);
+
+                // Send form data to the backend
+                fetch('/virtual_stylist', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response (display generated image, etc.)
+                    const chatWindow = document.getElementById('chatWindow');
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot-message';
+                    botMessage.textContent = "Here is your generated image:";
+                    chatWindow.appendChild(botMessage);
+
+                    const imageElement = document.createElement('img');
+                    imageElement.src = data.generated_image_path;
+                    imageElement.alt = "Generated Image";
+                    chatWindow.appendChild(imageElement);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                alert('Please upload an image and select a model.');
+            }
+        });
+
+        // Trigger file input when the label is clicked
+        document.querySelector('.upload-label').addEventListener('click', function() {
+            document.getElementById('imageUpload').click();
+        });
+    </script>
+</body>
+</html>

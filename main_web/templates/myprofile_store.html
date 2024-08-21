@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="../static/CSS/myprofile_store.css"> <!-- Link to your CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('blog.index') }}">
+                <img src="../static/images/logo.png" alt="Logo" class="logo-img original">
+                <img src="../static/images/logo-inverse.png" alt="Alternate Logo" class="logo-img alternate">
+            </a>
+        </div>
+        <div class="header-right"></div>
+        <div class="icon-container">
+            <div class="gpt-dropdown">
+                <button class="gpt-button">
+                    <img src="../static/images/gpt-icon.svg" alt="GPT Icon" class="gpt-icon-img">
+                </button>
+                <div class="gpt-options">
+                    <a href="{{ url_for('blog.product_finder') }}" class="gpt-option">Product Finder</a>
+                    <a href="{{ url_for('blog.fashion_expert') }}" class="gpt-option">Fashion Expert</a>
+                    <a href="{{ url_for('blog.personalized_stylist') }}" class="gpt-option">Personalized Stylist</a>
+                    <a href="{{ url_for('blog.virtual_model') }}"class="gpt-option">Virtual Model</a>
+                </div>
+            </div>
+            <div class="profile-icon">
+                <a href="{{ url_for('blog.profile') }}">
+                    <i class="fas fa-user" style="color: white;"></i>
+                </a>
+            </div>
+            <div class="cart-button">
+                <a href="{{ url_for('blog.view_cart') }}">
+                    <i class="fas fa-shopping-cart" style="color: white;" ></i>
+                </a>
+            </div>
+            <!-- Menu icon -->
+            <div class="navbar-button">
+                <i class="fas fa-bars" onclick="toggleMenu()"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Dropdown -->
+    <div class="menu-dropdown" id="menuDropdown">
+        <ul>
+            <li><a href="#" onclick="showSection('store-info')">Store Information</a></li>
+            <li><a href="#" onclick="showSection('product-listings')">Product Listings</a></li>
+            <li><a href="#" onclick="showSection('store-analysis')">Store Analytics</a></li>
+            <li><a href="#" onclick="showSection('add-product')">Add Product</a></li>
+            <li><a href="{{ url_for('auth.logout') }}" class="logout-button">Logout</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-container">
+        <!-- Main Content Area -->
+        <div class="content">
+            <!-- Sections here -->
+            <section id="store-info" class="section active">
+                <h2>Store Information</h2>
+                <div class="store-info-container">
+                    <div class="store-logo">
+                        <img src={{store.logo_path}} alt="Store Logo">
+                    </div>
+                    <div class="store-details">
+                        <p><strong>Store Name:</strong> {{ store.name }}</p>
+                        <p><strong>Address:</strong> {{ store.address }}</p>
+                        <p><strong>Email:</strong> {{ store.email }}</p>
+                        <p><strong>Phone Number:</strong> {{ store.phone_number }}</p>
+                        <p><strong>Password:</strong> ******** <button id="change-password-btn" onclick="toggleChangePasswordForm()">Change Password</button></p>
+                    </div>
+                </div>
+            
+                <div id="change-password-form" class="change-password-form">
+                    <h3>Change Password</h3>
+                    <form action="{{ url_for('blog.change_password') }}" method="POST">
+                        <div class="input-group">
+                            <label for="old-password">Old Password</label>
+                            <input type="password" id="old-password" name="old_password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" name="new_password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <input type="password" id="confirm-password" name="confirm_password" required>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flashes">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% endwith %}
+        
+            </section>
+
+            <section id="product-listings" class="section">
+                <h2>Product Listings</h2>
+                <!-- Product Listings Content -->
+            </section>
+
+            <section id="store-analysis" class="section">
+                <h2>Store Analytics</h2>
+                <div class="container">
+                    <h3>Select A Model</h3>
+                
+                    <div class="model-container">
+                        <div class="model-options">
+                            <div class="model-option" onclick="showForm('price')">Price Prediction Model</div>
+                            <div class="model-option" onclick="showForm('average_rating')">Average Rating Prediction Model</div>
+                            <div class="model-option" onclick="showForm('eps')">EPS Prediction Model</div>
+                            <div class="model-option" onclick="showForm('size')">Size Prediction Model</div>
+                        </div>
+                
+                        <div class="form-container">
+                            <form id="price-form" onsubmit="event.preventDefault(); submitForm('price-form', 'price-output', '/price_predict');">
+                                <div class="form-group">
+                                    <label for="brand">Brand:</label>
+                                    <input type="text" id="brand" name="brand" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Category:</label>
+                                    <input type="text" id="category" name="category" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="color">Color:</label>
+                                    <input type="text" id="color" name="color" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="size">Size:</label>
+                                    <input type="text" id="size" name="size" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="material">Material:</label>
+                                    <input type="text" id="material" name="material" required>
+                                </div>
+                                <button type="submit">Predict Price</button>
+                            </form>
+                            <div id="price-output" class="output"></div>
+                
+                            <form id="average_rating-form" onsubmit="event.preventDefault(); submitForm('average_rating-form', 'average_rating-output', '/average_rating_predict');">
+                                <div class="form-group">
+                                    <label for="product_name">Product Name:</label>
+                                    <input type="text" id="product_name" name="product_name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender">Gender:</label>
+                                    <input type="text" id="gender" name="gender" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Category:</label>
+                                    <input type="text" id="category" name="category" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="color">Color:</label>
+                                    <input type="text" id="color" name="color" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="age_group">Age Group:</label>
+                                    <input type="text" id="age_group" name="age_group" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="season">Season:</label>
+                                    <input type="text" id="season" name="season" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Price:</label>
+                                    <input type="text" id="price" name="price" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="material">Material:</label>
+                                    <input type="text" id="material" name="material" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sales_count">Sales Count:</label>
+                                    <input type="text" id="sales_count" name="sales_count" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="brand">Brand:</label>
+                                    <input type="text" id="brand" name="brand" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="discount">Discount:</label>
+                                    <input type="text" id="discount" name="discount" required>
+                                </div>
+                                <button type="submit">Predict Average Rating</button>
+                            </form>
+                            <div id="average_rating-output" class="output"></div>
+                
+                            <form id="eps-form" onsubmit="event.preventDefault(); submitForm('eps-form', 'eps-output', '/eps_predict');">
+                                <div class="form-group">
+                                    <label for="cagr_net_income">CAGR in Net Income - Last 5 years:</label>
+                                    <input type="text" id="cagr_net_income" name="cagr_net_income" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cagr_revenues">CAGR in Revenues - Last 5 years:</label>
+                                    <input type="text" id="cagr_revenues" name="cagr_revenues" required>
+                                </div>
+                                <button type="submit">Predict EPS</button>
+                            </form>
+                            <div id="eps-output" class="output"></div>
+                
+                            <form id="size-form" onsubmit="event.preventDefault(); submitForm('size-form', 'size-output', '/size_predict');">
+                                <div class="form-group">
+                                    <label for="weight">Weight(Number):</label>
+                                    <input type="text" id="weight" name="weight" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="age">Age (Number):</label>
+                                    <input type="text" id="age" name="age" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="height">Height(Number):</label>
+                                    <input type="text" id="height" name="height" required>
+                                </div>
+                                <button type="submit">Predict Size</button>
+                            </form>
+                            <div id="size-output" class="output"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="add-product" class="section">
+                <div class="add-product-container">
+                    <div class="steps-container">
+                        <div class="step completed" id="step1">
+                            <p>1. Item Details</p>
+                            <div class="line"></div>
+                        </div>
+                        <div class="step" id="step2">
+                            <p>2. Photo Upload</p>
+                            <div class="line"></div>
+                        </div>
+                        <div class="step" id="step3">
+                            <p>3. Review</p>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+            
+                    <!-- The form starts here and spans all steps -->
+                    <form action="{{ url_for('blog.upload_product') }}" method="POST" enctype="multipart/form-data" id="productForm">
+                        
+                        <!-- Item Details Section -->
+                        <div class="item-details-form" id="step-item-details">
+                            <div class="input-group">
+                                <label for="item-name">Item Name:</label>
+                                <input type="text" id="item-name" name="item_name" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="category">Category:</label>
+                                <select id="category" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Menswear">Menswear</option>
+                                    <option value="Womenswear">Womenswear</option>
+                                    <option value="Kidswear">Kidswear</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="subcategory">Subcategory:</label>
+                                <select id="subcategory" name="subcategory" required>
+                                    <option value="">Select Subcategory</option>
+                                    <option value="Clothing">Clothing</option>
+                                    <option value="Shoes">Shoes</option>
+                                    <option value="Accessories">Accessories</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="type">Type:</label>
+                                <select id="type" name="type" required>
+                                    <option value="">Select Type</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="size">Size:</label>
+                                <select id="size" name="size" required>
+                                    <option value="">Select Size</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="color">Color:</label>
+                                <input type="text" id="color" name="color" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="description">Description:</label>
+                                <textarea id="description" name="description" rows="4" required></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="price">Price:</label>
+                                <input type="number" id="price" name="price" min="0" step="0.01" required>
+                            </div>
+                            <button type="button" class="next-step-button" id="nextToPhotoUpload">Next</button>
+                        </div>
+            
+                        <!-- Photo Upload Section -->
+                        <div id="step-upload-photo" class="step-section" style="display:none;">
+                            <div class="photo-upload-section">
+                                <p>Please submit 5 photos of your item. Click one of the photos below to upload your own. You can drag the photos to change their order or click to delete them.</p>
+                                <div class="photo-grid">
+                                    <div class="photo-box" data-label="front">
+                                        <span>Front</span>
+                                        <input type="file" class="file-input" name = "image1" accept="image/*" onchange="handleImageUpload(this)">
+                                        <img src="" alt="Preview" class="preview-img" style="display:none;">
+                                        <button class="delete-btn" onclick="deleteImage(this)" style="display:none;">×</button>
+                                    </div>
+                                    <div class="photo-box" data-label="back">
+                                        <span>Back</span>
+                                        <input type="file" class="file-input" name = "image2" accept="image/*" onchange="handleImageUpload(this)">
+                                        <img src="" alt="Preview" class="preview-img" style="display:none;">
+                                        <button class="delete-btn" onclick="deleteImage(this)" style="display:none;">×</button>
+                                    </div>
+                                    <div class="photo-box" data-label="side1">
+                                        <span>Side 1</span>
+                                        <input type="file" class="file-input" name = "image3" accept="image/*" onchange="handleImageUpload(this)">
+                                        <img src="" alt="Preview" class="preview-img" style="display:none;">
+                                        <button class="delete-btn" onclick="deleteImage(this)" style="display:none;">×</button>
+                                    </div>
+                                    <div class="photo-box" data-label="side2">
+                                        <span>Side 2</span>
+                                        <input type="file" class="file-input" name = "image4" accept="image/*" onchange="handleImageUpload(this)">
+                                        <img src="" alt="Preview" class="preview-img" style="display:none;">
+                                        <button class="delete-btn" onclick="deleteImage(this)" style="display:none;">×</button>
+                                    </div>
+                                    <div class="photo-box" data-label="styling">
+                                        <span>Styling It</span>
+                                        <input type="file" class="file-input" name = "image5" accept="image/*" onchange="handleImageUpload(this)">
+                                        <img src="" alt="Preview" class="preview-img" style="display:none;">
+                                        <button class="delete-btn" onclick="deleteImage(this)" style="display:none;">×</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buttons-container">
+                                <button type="button" class="back-step-button" id="backToDetails">Back</button>
+                                <button type="button" class="next-step-button" id="nextToReview">Next</button>
+                            </div>
+                        </div>
+            
+                        <div id="step-review" class="step-section" style="display:none;">
+                            <h2>Review Your Item</h2>
+                            <div class="review-container">
+                                <div class="review-item">
+                                    <h3>Item Name:</h3>
+                                    <p id="review-item-name"></p>
+                                </div>
+                                <div class="review-item">
+                                    <h3>Category:</h3>
+                                    <p id="review-category"></p>
+                                </div>
+                                <div class="review-item">
+                                    <h3>Subcategory:</h3>
+                                    <p id="review-subcategory"></p>
+                                </div>
+                                <div class="review-item">
+                                    <h3>Type:</h3>
+                                    <p id="review-type"></p>
+                                </div>
+                                <div class="review-item">
+                                    <h3>Size:</h3>
+                                    <p id="review-size"></p>
+                                </div>
+                                <div class="review-item">
+                                    <h3>Color:</h3>
+                                    <p id="review-color"></p>
+                                </div>
+                                <div class="review-item">
+                                    <h3>Description:</h3>
+                                    <p id="review-description"></p>
+                                </div>
+                                <div class="review-item">
+                                    <h3>Price:</h3>
+                                    <p id="review-price"></p>
+                                </div>
+                                <div class="review-item">
+                                    <h3>Images:</h3>
+                                    <div id="review-images" class="review-images">
+                                        <!-- Images will be appended here -->
+                                    </div>
+                                </div>
+                                <!-- Add buttons for navigating back and submitting -->
+                                <div class="buttons-container">
+                                    <button type="button" class="back-step-button" id="backToUpload">Back</button>
+                                    <button type="submit" class="submit-button">Submit</button>
+                                </div>
+                                <p id="error-message" style="color: red; display: none;">Please fill out all required fields.</p>
+                            </div>
+                        </div>    
+                    </form> <!-- The form ends here, wrapping all steps -->
+                </div>
+            </section>  
+
+            <section id="logout" class="section">
+                <a href="{{ url_for('auth.logout') }}" class="logout-button">Logout</a>
+            </section>
+        </div>
+    </div>
+
+    <script src="../static/JS/myprofile_store.js"></script>
+</body>
+</html>

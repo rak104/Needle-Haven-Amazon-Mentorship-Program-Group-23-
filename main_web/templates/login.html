@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Store Website</title>
+    <link rel="stylesheet" href="../static/CSS/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('blog.index') }}">
+                <img src="../static/images/logo.png" alt="Logo" class="logo-img original">
+                <img src="../static/images/logo-inverse.png" alt="Alternate Logo" class="logo-img alternate">
+            </a>
+        </div>
+        <div class="header-right"></div>
+        <div class="icon-container">
+            <button class="gpt-button">
+                <img src="../static/images/gpt-icon.svg" alt="GPT Icon" class="gpt-icon-img">
+            </button>
+            <div class="profile-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="cart-button">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="navbar-button">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <div class="background-container">
+        <div class="content">
+            <div class="bubble-container"></div> <!-- Bubble Container -->
+            <div class="sign-in-container">
+                <div class="sign-in-header">
+                    <h2 id="greeting"></h2> <!-- Dynamic Greeting Message -->
+                    <h1>Welcome to Needle Haven</h1>
+                </div>
+                <form action="{{ url_for('auth.login') }}" method="POST" class="sign-in-form">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input name="username"  type="text" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input name ="password" type="password" placeholder="Password" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <label>
+                            <input type="checkbox"> Remember Me
+                        </label>
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    <button type="submit">Sign In</button>
+                    <div class="additional-options">
+                        <p>
+                            Don't have an account? 
+                            <a href="{{ url_for('auth.register') }}" class="signup-link">Sign up</a>
+                        </p>
+                    </div>                    
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="error-messages">
+                            {% for message in messages %}
+                            <p class="error">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/JS/login.js"></script>
+</body>
+</html>

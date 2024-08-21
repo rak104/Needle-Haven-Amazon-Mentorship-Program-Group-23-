@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Sign Up</title>
+    <link rel="stylesheet" href="../static/CSS/signup-customer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('blog.index') }}">
+                <img src="../static/images/logo.png" alt="Logo" class="logo-img original">
+                <img src="../static/images/logo-inverse.png" alt="Alternate Logo" class="logo-img alternate">
+            </a>
+        </div>
+        <div class="header-right"></div>
+        <div class="icon-container">
+            <button class="gpt-button">
+                <img src="../static/images/gpt-icon.svg" alt="GPT Icon" class="gpt-icon-img">
+            </button>
+            <div class="profile-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="cart-button">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="navbar-button">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <div class="background-container">
+        <div class="content">
+            <div class="bubble-container"></div> <!-- Bubble Container -->
+            <div class="sign-up-container">  
+                <div class="sign-up-header">
+                    <h1>Customer Sign Up</h1>
+                </div>
+                <div class="sign-up-form">
+                    <form action="{{ url_for('auth.register_customer') }}" method="POST">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" name="first_name" placeholder="First Name" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" name="last_name" placeholder="Last Name" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-user-circle"></i>
+                            <input type="text" name="username" placeholder="Username" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" name="password" placeholder="Password" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-calendar-alt"></i>
+                            <div class="input-wrapper" style="position: relative; width: 100%;">
+                                <span id="date-placeholder">Date of Birth - mm/dd/yyyy</span>
+                                <input type="date" id="dob" name="date_of_birth" required>
+                            </div>
+                        </div>                        
+                        <button type="submit">Sign Up</button>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="error-messages">
+                                {% for message in messages %}
+                                <p class="error" style="color: black;">{{ message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% endwith %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/JS/signup-customer.js"></script>
+</body>
+</html>
