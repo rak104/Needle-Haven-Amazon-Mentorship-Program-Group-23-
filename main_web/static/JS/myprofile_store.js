@@ -147,6 +147,7 @@ document.addEventListener('click', function(event) {
 });
 
 
+
 const typeAndSizeOptions = {
     Menswear: {
         Clothing: {
@@ -204,29 +205,25 @@ const typeAndSizeOptions = {
         }
     }
 };
-
 function updateTypesAndSizes() {
-    const category = document.getElementById('category').value;
+    const category = document.getElementById('category2').value;
     const subcategory = document.getElementById('subcategory').value;
     const typeSelect = document.getElementById('type');
-    const sizeSelect = document.getElementById('size');
+    const sizeSelect = document.getElementById('size2');
 
     typeSelect.innerHTML = ''; // Clear current type options
     sizeSelect.innerHTML = ''; // Clear current size options
 
-    if (typeAndSizeOptions[category] && typeAndSizeOptions[category][subcategory]) {
-        const options = typeAndSizeOptions[category][subcategory];
 
-        // Populate type options
-        options.types.forEach(type => {
+    if (category && subcategory && typeAndSizeOptions[category] && typeAndSizeOptions[category][subcategory]) {
+        typeAndSizeOptions[category][subcategory].types.forEach(type => {
             const option = document.createElement('option');
             option.value = type;
             option.textContent = type;
             typeSelect.appendChild(option);
         });
 
-        // Populate size options
-        options.sizes.forEach(size => {
+        typeAndSizeOptions[category][subcategory].sizes.forEach(size => {
             const option = document.createElement('option');
             option.value = size;
             option.textContent = size;
@@ -235,21 +232,22 @@ function updateTypesAndSizes() {
     }
 }
 
-// Add event listeners to update types and sizes when category or subcategory changes
+// Event listeners to update the types and sizes when category or subcategory changes
 document.getElementById('category').addEventListener('change', updateTypesAndSizes);
 document.getElementById('subcategory').addEventListener('change', updateTypesAndSizes);
+
 
 
 // Populate the review section
 document.getElementById('nextToReview').addEventListener('click', function () {
     document.getElementById('review-item-name').textContent = document.getElementById('item-name').value;
-    document.getElementById('review-category').textContent = document.getElementById('category').value;
+    document.getElementById('review-category').textContent = document.getElementById('category2').value;
     document.getElementById('review-subcategory').textContent = document.getElementById('subcategory').value;
     document.getElementById('review-type').textContent = document.getElementById('type').value;
-    document.getElementById('review-size').textContent = document.getElementById('size').value;
-    document.getElementById('review-color').textContent = document.getElementById('color').value;
+    document.getElementById('review-size').textContent = document.getElementById('size2').value;
+    document.getElementById('review-color').textContent = document.getElementById('color2').value;
     document.getElementById('review-description').textContent = document.getElementById('description').value;
-    document.getElementById('review-price').textContent = document.getElementById('price').value;
+    document.getElementById('review-price').textContent = document.getElementById('price2').value;
 
     const reviewImagesContainer = document.getElementById('review-images');
     reviewImagesContainer.innerHTML = '';
@@ -314,3 +312,30 @@ document.getElementById('productForm').addEventListener('keydown', function(even
         document.getElementById('nextToPhotoUpload').click();
     }
 });
+
+
+function showForm(model) {
+    document.querySelectorAll('form').forEach(form => form.style.display = 'none');
+    document.querySelectorAll('.output').forEach(output => output.style.display = 'none');
+    document.getElementById(model + '-form').style.display = 'block';
+}
+
+function submitForm(formId, outputId, actionUrl) {
+    const form = document.getElementById(formId);
+    const outputDiv = document.getElementById(outputId);
+    const formData = new FormData(form);
+
+    fetch(actionUrl, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        outputDiv.innerHTML = `<strong>Prediction:</strong> ${Object.values(data)[0]}`;
+        outputDiv.style.display = 'block';
+    })
+    .catch(error => {
+        outputDiv.innerHTML = `<strong>Error:</strong> ${error}`;
+        outputDiv.style.display = 'block';
+    });
+}
